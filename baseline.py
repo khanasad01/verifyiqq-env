@@ -11,29 +11,28 @@ if not OPENAI_API_KEY:
 SYSTEM_PROMPT = """You are a D2C customer support agent handling WhatsApp messages.
 
 You will receive a JSON object with:
-- message_text: raw customer message (may be Hinglish)
-- language: detected language (hindi/hinglish/english/pidgin/bahasa)
-- intent: what they want (refund/tracking/complaint/query)
+- message: raw customer message (may be Hinglish)
+- language: detected language
+- intent: what they want (refund_request/order_status/complaint/general_query)
 - tone: emotional state (frustrated/urgent/casual/neutral)
-- claim_truth_score: float 0.0 to 1.0 (how verified their claim is)
+- claim_truth_score: float 0.0 to 1.0
 - claim_truth_label: verified / suspicious / false
 - region: india/usa/nigeria/indonesia
 
 Your rules:
-1. Reply in the SAME language as the customer
-2. Show empathy FIRST if tone is frustrated or urgent
-3. NEVER issue refund if claim_truth_label is "false"
-4. Use action_type "reject" if claim is false
-5. Use action_type "escalate" if suspicious
-6. Use action_type "refund" only if verified
-7. Keep response under 3 sentences
+1. Show empathy FIRST if tone is frustrated or urgent
+2. NEVER use initiate_refund if claim_truth_label is false
+3. Use investigate_first if claim is suspicious
+4. Use initiate_refund only if claim is verified
+5. Use escalate_human for complex issues
+6. Keep reply_message under 3 sentences
 
-Return ONLY valid JSON, no markdown, no explanation:
+Return ONLY valid JSON, no markdown:
 {
-  "response_text": "...",
-  "detected_intent": "refund|tracking|complaint|query",
-  "response_language": "hindi|hinglish|english|pidgin|bahasa",
-  "action_type": "refund|escalate|inform|reject"
+  "action_type": "reply_only|track_order|initiate_refund|investigate_first|escalate_human",
+  "reply_message": "your response to customer",
+  "order_id": null,
+  "refund_amount": null
 }"""
 
 
@@ -67,17 +66,10 @@ def run_task(task_id: int) -> float:
     print(f"  Running Task {task_id}")
     print(f"{'='*50}")
 
-    reset_resp = requests.post(
-        f"{BASE_URL}/reset",
-        json={"task_id": task_id, "region": "india"},
-        timeout=10
-    )
+    reset_resp = requests.post(f"{BASE_URL}/reset", timeout=10)
     reset_resp.raise_for_status()
-    data = reset_resp.json()
-
-    observation = data.get("observation", data)
-    done = data.get("done", False)
-
+    observation = reset_resp.json()
+    done = False
     scores = []
     step = 0
 
@@ -88,24 +80,21 @@ def run_task(task_id: int) -> float:
         except Exception as e:
             print(f"  Step {step}: OpenAI error - {e}")
             action = {
-                "response_text": "I understand your concern. Let me check this for you.",
-                "detected_intent": observation.get("intent", "query"),
-                "response_language": observation.get("language", "english"),
-                "action_type": "inform"
+                "action_type": "reply_only",
+                "reply_message": "I understand your concern. Let me check this for you.",
+                "order_id": None,
+                "refund_amount": None
             }
 
-        step_resp = requests.post(
-            f"{BASE_URL}/step",
-            json=action,
-            timeout=10
-        )
+        step_resp = requests.post(f"{BASE_URL}/step", json=action, timeout=10)
         step_resp.raise_for_status()
         step_data = step_resp.json()
 
-        reward_score = step_data.get("reward", {}).get("score", 0.0)
+        reward = step_data.get("reward", {})
+        reward_score = reward.get("value", reward.get("score", 0.0))
         scores.append(reward_score)
         done = step_data.get("done", False)
-        observation = step_data.get("observation", {})
+        observation = step_data.get("observation", observation)
 
         label = observation.get("claim_truth_label", "?") if not done else "done"
         print(f"  Step {step:02d} | score: {reward_score:.2f} | action: {action.get('action_type')} | claim: {label}")
@@ -123,7 +112,7 @@ def main():
     try:
         health = requests.get(f"{BASE_URL}/health", timeout=5)
         if health.status_code != 200:
-            print("ERROR: Server not responding. Start uvicorn first.")
+            print("ERROR: Server not responding.")
             return
     except Exception:
         print("ERROR: Cannot connect to server. Start uvicorn first.")
