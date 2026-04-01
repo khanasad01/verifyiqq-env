@@ -1,0 +1,22 @@
+[
+  {"id": "M001", "customer_id": "C001", "order_id": "ORD001", "message": "bhai mera order 5 din pehle aaya aur bilkul toot hua tha", "ground_truth_intent": "refund_request", "ground_truth_tone": "frustrated", "is_fraud": true},
+  {"id": "M002", "customer_id": "C002", "order_id": "ORD002", "message": "where is my order it has been 3 days", "ground_truth_intent": "order_status", "ground_truth_tone": "neutral", "is_fraud": false},
+  {"id": "M003", "customer_id": "C003", "order_id": "ORD003", "message": "mujhe refund chahiye abhi", "ground_truth_intent": "refund_request", "ground_truth_tone": "urgent", "is_fraud": false},
+  {"id": "M004", "customer_id": "C004", "order_id": "ORD004", "message": "item quality bohot kharab thi", "ground_truth_intent": "complaint", "ground_truth_tone": "frustrated", "is_fraud": false},
+  {"id": "M005", "customer_id": "C005", "order_id": null, "message": "what is your return policy", "ground_truth_intent": "general_query", "ground_truth_tone": "neutral", "is_fraud": false},
+  {"id": "M006", "customer_id": "C006", "order_id": "ORD006", "message": "ye worst service hai mera paise wapas karo", "ground_truth_intent": "refund_request", "ground_truth_tone": "frustrated", "is_fraud": false},
+  {"id": "M007", "customer_id": "C007", "order_id": "ORD007", "message": "order deliver nahi hua 10 din ho gaye", "ground_truth_intent": "order_status", "ground_truth_tone": "frustrated", "is_fraud": true},
+  {"id": "M008", "customer_id": "C008", "order_id": "ORD008", "message": "wrong item aaya hai mujhe sahi item chahiye", "ground_truth_intent": "complaint", "ground_truth_tone": "neutral", "is_fraud": false},
+  {"id": "M009", "customer_id": "C009", "order_id": "ORD009", "message": "urgent help chahiye mera order missing hai", "ground_truth_intent": "order_status", "ground_truth_tone": "urgent", "is_fraud": true},
+  {"id": "M010", "customer_id": "C010", "order_id": null, "message": "how do I track my order", "ground_truth_intent": "order_status", "ground_truth_tone": "neutral", "is_fraud": false},
+  {"id": "M011", "customer_id": "C011", "order_id": "ORD011", "message": "bhai 7 din pehle order kiya tha abhi tak nahi aaya", "ground_truth_intent": "order_status", "ground_truth_tone": "frustrated", "is_fraud": true},
+  {"id": "M012", "customer_id": "C012", "order_id": "ORD012", "message": "product damaged tha box bhi toot hua tha", "ground_truth_intent": "complaint", "ground_truth_tone": "frustrated", "is_fraud": false},
+  {"id": "M013", "customer_id": "C013", "order_id": "ORD013", "message": "refund kab tak aayega", "ground_truth_intent": "refund_request", "ground_truth_tone": "neutral", "is_fraud": false},
+  {"id": "M014", "customer_id": "C014", "order_id": null, "message": "do you have cash on delivery option", "ground_truth_intent": "general_query", "ground_truth_tone": "neutral", "is_fraud": false},
+  {"id": "M015", "customer_id": "C015", "order_id": "ORD015", "message": "bakwaas company hai mera pura paise waste ho gaya", "ground_truth_intent": "complaint", "ground_truth_tone": "frustrated", "is_fraud": false},
+  {"id": "M016", "customer_id": "C016", "order_id": "ORD016", "message": "I received the wrong size please help", "ground_truth_intent": "complaint", "ground_truth_tone": "neutral", "is_fraud": false},
+  {"id": "M017", "customer_id": "C017", "order_id": "ORD017", "message": "mera order cancel kar do aur refund do", "ground_truth_intent": "refund_request", "ground_truth_tone": "neutral", "is_fraud": false},
+  {"id": "M018", "customer_id": "C018", "order_id": "ORD018", "message": "order 15 din pehle aaya tha ekdum toot hua tha", "ground_truth_intent": "refund_request", "ground_truth_tone": "frustrated", "is_fraud": true},
+  {"id": "M019", "customer_id": "C019", "order_id": null, "message": "what are your delivery charges", "ground_truth_intent": "general_query", "ground_truth_tone": "neutral", "is_fraud": false},
+  {"id": "M020", "customer_id": "C020", "order_id": "ORD020", "message": "please refund my money the product is not working", "ground_truth_intent": "refund_request", "ground_truth_tone": "urgent", "is_fraud": false}
+]

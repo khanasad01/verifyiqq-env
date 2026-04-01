@@ -1,0 +1,18 @@
+[
+  {"order_id": "ORD001", "customer_id": "C001", "delivered_days_ago": 2, "actual_condition": "good", "damage_report": false, "refund_status": "none", "amount": 599},
+  {"order_id": "ORD002", "customer_id": "C002", "delivered_days_ago": 3, "actual_condition": "good", "damage_report": false, "refund_status": "none", "amount": 899},
+  {"order_id": "ORD003", "customer_id": "C003", "delivered_days_ago": 1, "actual_condition": "good", "damage_report": false, "refund_status": "none", "amount": 1299},
+  {"order_id": "ORD004", "customer_id": "C004", "delivered_days_ago": 4, "actual_condition": "damaged", "damage_report": true, "refund_status": "none", "amount": 499},
+  {"order_id": "ORD006", "customer_id": "C006", "delivered_days_ago": 2, "actual_condition": "good", "damage_report": false, "refund_status": "none", "amount": 799},
+  {"order_id": "ORD007", "customer_id": "C007", "delivered_days_ago": 2, "actual_condition": "good", "damage_report": false, "refund_status": "none", "amount": 349},
+  {"order_id": "ORD008", "customer_id": "C008", "delivered_days_ago": 1, "actual_condition": "wrong_item", "damage_report": true, "refund_status": "none", "amount": 999},
+  {"order_id": "ORD009", "customer_id": "C009", "delivered_days_ago": 1, "actual_condition": "good", "damage_report": false, "refund_status": "none", "amount": 649},
+  {"order_id": "ORD011", "customer_id": "C011", "delivered_days_ago": 1, "actual_condition": "good", "damage_report": false, "refund_status": "none", "amount": 449},
+  {"order_id": "ORD012", "customer_id": "C012", "delivered_days_ago": 3, "actual_condition": "damaged", "damage_report": true, "refund_status": "none", "amount": 1199},
+  {"order_id": "ORD013", "customer_id": "C013", "delivered_days_ago": 7, "actual_condition": "good", "damage_report": false, "refund_status": "processing", "amount": 599},
+  {"order_id": "ORD015", "customer_id": "C015", "delivered_days_ago": 2, "actual_condition": "good", "damage_report": false, "refund_status": "none", "amount": 299},
+  {"order_id": "ORD016", "customer_id": "C016", "delivered_days_ago": 1, "actual_condition": "wrong_item", "damage_report": true, "refund_status": "none", "amount": 899},
+  {"order_id": "ORD017", "customer_id": "C017", "delivered_days_ago": 0, "actual_condition": "good", "damage_report": false, "refund_status": "none", "amount": 749},
+  {"order_id": "ORD018", "customer_id": "C018", "delivered_days_ago": 2, "actual_condition": "good", "damage_report": false, "refund_status": "none", "amount": 549},
+  {"order_id": "ORD020", "customer_id": "C020", "delivered_days_ago": 5, "actual_condition": "not_working", "damage_report": true, "refund_status": "none", "amount": 1599}
+]

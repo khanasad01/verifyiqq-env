@@ -1,0 +1,73 @@
+name: verifyiq-env
+version: "1.0.0"
+description: >
+  AI agent learns D2C customer support with fraud detection.
+  Built on ContextIQ NLP and TruthLens claim verification.
+  First OpenEnv environment with built-in fraud detection.
+
+domain: customer_support
+language: hinglish
+tags:
+  - openenv
+  - customer-support
+  - fraud-detection
+  - hinglish
+  - india
+  - d2c
+
+observation_space:
+  type: object
+  fields:
+    message:             {type: string}
+    language:            {type: string, enum: [hi, hinglish, en]}
+    tone:                {type: string, enum: [frustrated, urgent, casual, neutral]}
+    intent:              {type: string, enum: [order_status, refund_request, complaint, general_query]}
+    customer_id:         {type: string}
+    order_id:            {type: string, nullable: true}
+    claim_truth_score:   {type: number, minimum: 0.0, maximum: 1.0}
+    claim_truth_label:   {type: string, enum: [verified, suspicious, false]}
+    region:              {type: string}
+    queue_size:          {type: integer}
+
+action_space:
+  type: object
+  fields:
+    action_type:         {type: string, enum: [reply_only, track_order, initiate_refund, investigate_first, escalate_human]}
+    reply_message:       {type: string}
+    order_id:            {type: string, nullable: true}
+    refund_amount:       {type: number, nullable: true}
+
+reward_range: [-1.0, 1.0]
+
+tasks:
+  - id: single_intent_triage
+    difficulty: easy
+    description: Handle 10 single-intent customer messages
+    min_score: 0.0
+    max_score: 1.0
+
+  - id: hinglish_fraud_detection
+    difficulty: medium
+    description: Handle 20 Hinglish messages with 7 false claims hidden
+    min_score: 0.0
+    max_score: 1.0
+
+  - id: full_support_shift
+    difficulty: hard
+    description: Handle 40 messages across all regions with 15 false claims
+    min_score: 0.0
+    max_score: 1.0
+
+baseline_scores:
+  single_intent_triage:    0.9
+  hinglish_fraud_detection: 1.0
+  full_support_shift:       1.0
+
+endpoints:
+  reset:    POST /reset
+  step:     POST /step
+  state:    GET  /state
+  tasks:    GET  /tasks
+  grader:   POST /grader
+  baseline: POST /baseline
+  health:   GET  /health
