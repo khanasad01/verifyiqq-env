@@ -102,66 +102,13 @@ class ContextIQEnv:
         )
 
     def _calculate_reward(self, action: Action) -> Reward:
-        reward = 0.0
-        breakdown = {}
-        obs = self.current_obs
-
-        CORRECT_ACTIONS = {
-            "order_status":   ["track_order", "reply_only"],
-            "refund_request": ["initiate_refund", "investigate_first"],
-            "complaint":      ["reply_only", "escalate_human"],
-            "general_query":  ["reply_only"]
-        }
-
-        if action.action_type in CORRECT_ACTIONS.get(obs.intent, []):
-            reward += 0.40
-            breakdown["intent_match"] = 0.40
-        else:
-            reward -= 0.20
-            breakdown["intent_mismatch"] = -0.20
-
-        if obs.claim_truth_label == "false":
-            if action.action_type == "initiate_refund":
-                reward -= 0.50
-                breakdown["fraud_enabled"] = -0.50
-                self.state_manager.metrics["fraud_missed"] += 1
-            elif action.action_type == "investigate_first":
-                reward += 0.30
-                breakdown["fraud_caught"] = 0.30
-                self.state_manager.metrics["fraud_caught"] += 1
-
-        if obs.tone == "frustrated":
-            empathy_words = [
-                "samajh sakta hoon", "bilkul theek hai",
-                "i understand", "sorry", "zaroor help",
-                "main dekh raha hoon", "haan ji"
-            ]
-            has_empathy = any(
-                w in action.reply_message.lower()
-                for w in empathy_words
-            )
-            if has_empathy:
-                reward += 0.20
-                breakdown["empathy_shown"] = 0.20
-            else:
-                reward -= 0.15
-                breakdown["empathy_missing"] = -0.15
-
-        final = max(-1.0, min(1.0, reward))
-
-        if final >= 0.6:
-            explanation = "Sahi action liya. Claim verify kiya, empathy di."
-            tip = "Aise hi karo — verify first, then act."
-        elif final >= 0.2:
-            explanation = "Thoda sahi, thoda galat. Improvement possible hai."
-            tip = "Frustrated customer ko pehle empathy do."
-        else:
-            explanation = "Galat action — fraud enable hua ya intent miss hua."
-            tip = "Jab claim_truth_label = false ho, investigate_first lo."
-
-        return Reward(
-            value=final,
-            breakdown=breakdown,
-            explanation=explanation,
-            learning_tip=tip
-        )
+        from environment.reward import calculate_reward
+        reward_obj = calculate_reward(action, self.current_obs)
+        
+        # Keep metrics updated based on the robust reward breakdown
+        if "fraud_enabled" in reward_obj.breakdown:
+            self.state_manager.metrics["fraud_missed"] += 1
+        if "fraud_caught" in reward_obj.breakdown:
+            self.state_manager.metrics["fraud_caught"] += 1
+            
+        return reward_obj
