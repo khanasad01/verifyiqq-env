@@ -71,14 +71,3 @@ def run_grader(task_id: str, episode_log: list):
     score = graders[task_id](episode_log)
     return {"task_id": task_id, "score": score}
 
-@app.post("/baseline")
-def run_baseline():
-    import subprocess
-    result = subprocess.run(
-        ["python", "baseline.py"],
-        capture_output=True, text=True
-    )
-    return {
-        "output": result.stdout,
-        "error": result.stderr
-    }

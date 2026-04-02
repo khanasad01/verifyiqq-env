@@ -1,0 +1,5 @@
+{
+  "single_intent_triage": 0.90,
+  "hinglish_fraud_detection": 0.85,
+  "full_support_shift": 0.80
+}
