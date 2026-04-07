@@ -5,7 +5,9 @@ colorFrom: blue
 colorTo: green
 sdk: docker
 pinned: false
----<div align="center">
+---
+
+<div align="center">
   <h1>VerifyIQ-Env</h1>
   <h3>AI That Doesn't Just Respond. It Verifies.</h3>
 
@@ -70,12 +72,9 @@ VerifyIQ-Env provides a rigorous training ground to fix these behaviors:
 ---
 
 ## System Architecture
-
-```text
 ┌──────────────────────────────────────────────────────────────────┐
 │                     VERIFY-IQ ENVIRONMENT                        │
 └──────────────────────────────────────────────────────────────────┘
-
 ┌──────────────────────┐         ┌───────────────────────────────┐
 │  CUSTOMER GENERATOR  │         │  AI AGENT (LLM / INFERENCE)   │
 │                      │         │                               │
@@ -83,15 +82,15 @@ VerifyIQ-Env provides a rigorous training ground to fix these behaviors:
 │  - Hinglish / En     │         │  - Generates Action JSON      │
 │  - Genuine & Fraud   │         │  - OpenAI API Integration     │
 └──────────┬───────────┘         └───────────────┬───────────────┘
-           │                                     │
-           ▼                                     ▼
+│                                     │
+▼                                     ▼
 ┌──────────────────────────────────────────────────────────────────┐
 │                 FASTAPI SERVER (OpenEnv Spec)                    │
 │                                                                  │
 │  [POST] /reset           [POST] /step           [GET] /state     │
 └──────────┬─────────────────────────────┬─────────────────────────┘
-           │                             │
-           ▼                             ▼
+│                             │
+▼                             ▼
 ┌──────────────────────────────────────────────────────────────────┐
 │                 INTERNAL PROCESSING PIPELINES                    │
 │                                                                  │
@@ -107,13 +106,10 @@ VerifyIQ-Env provides a rigorous training ground to fix these behaviors:
 │                 - Updates CSAT & Empathy Stats                   │
 │                 - Generates Next Observation                     │
 └──────────────────────────────────────────────────────────────────┘
-```
 
 ---
 
 ## Environment Tasks
-
-The environment scales progressively to test agent generalization and fraud detection capabilities.
 
 | Task ID | Difficulty | Message Count | Fraud Rate | Focus Area |
 |---------|------------|---------------|------------|------------|
@@ -124,8 +120,6 @@ The environment scales progressively to test agent generalization and fraud dete
 ---
 
 ## Observation Space
-
-At every `step()`, the agent receives the following structured JSON describing the state:
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -144,8 +138,6 @@ At every `step()`, the agent receives the following structured JSON describing t
 
 ## Action Space
 
-The Agent must respond with a strictly formatted JSON payload to execute a step:
-
 | Field | Type | Description |
 |-------|------|-------------|
 | `action_type` | string | Must be: [reply_only, track_order, initiate_refund, investigate_first, escalate_human] |
@@ -157,18 +149,16 @@ The Agent must respond with a strictly formatted JSON payload to execute a step:
 
 ## Reward Mechanism
 
-VerifyIQ-Env utilizes a continuous reward scale `[-1.0, 1.0]` built on three parallel validation tracks. The `Reward` object returns the float value alongside an explainable `breakdown` dictionary and dynamic `learning_tip`.
-
 **1. Intent Matching**
 - `+0.40`: Correct system action selected for the customer's intent.
 - `-0.20`: Incorrect system action selected.
 
 **2. TruthLens Fraud Validation**
 - `+0.30`: Agent safely investigates a suspicious or false claim.
-- **`-0.50`**: SEVERE PENALTY. Agent blindly initiates a refund for a false claim.
+- `-0.50`: SEVERE PENALTY. Agent blindly initiates a refund for a false claim.
 
 **3. Empathy & Tone Control**
-- `+0.20`: Agent includes empathy keywords when user tone is 'frustrated' or 'urgent'.
+- `+0.20`: Agent includes empathy keywords when user tone is frustrated or urgent.
 - `-0.15`: Agent fails to show empathy to a frustrated user.
 
 ---
@@ -178,103 +168,36 @@ VerifyIQ-Env utilizes a continuous reward scale `[-1.0, 1.0]` built on three par
 - **Framework:** FastAPI (Python 3.11)
 - **RL Standard:** OpenEnv API compliance
 - **Data Validation:** Pydantic
-- **Inference Engine:** OpenAI SDK (Pluggable for GPT-4o, Claude, or local models)
+- **Inference Engine:** OpenAI SDK
 - **Deployment:** Docker & HuggingFace Spaces
 
 ---
 
 ## Getting Started
-
-### Prerequisites
-
-- Python 3.11+
-- pip (Python package installer)
-- Git
-
-### 1. Local Setup
-
-Clone the repository and install dependencies:
-
 ```bash
-git clone https://github.com/yourusername/verifyiqq-env.git
+git clone https://github.com/khanasad01/verifyiqq-env.git
 cd verifyiqq-env
-
 pip install -r requirements.txt
-```
-
-### 2. Environment Variables
-
-Create a `.env` file based on the provided template:
-
-```bash
 cp .env.example .env
-```
-
-Set your configuration in `.env`:
-```text
-API_BASE_URL="https://api.openai.com/v1"
-MODEL_NAME="gpt-4o"
-HF_TOKEN="your_api_key_here"
-VERIFYIQ_URL="http://localhost:8000"
-```
-
-### 3. Run the Environment Server
-
-Start the FastAPI environment in the background or a separate terminal:
-
-```bash
 uvicorn server:app --reload --port 8000
-```
-The server will boot and expose the required OpenEnv endpoints (`/reset`, `/step`, `/state`).
-
-### 4. Execute the Agent (Inference)
-
-Run the benchmark agent across all three difficulty tasks. The script strictly outputs structured `[START]`, `[STEP]`, and `[END]` logs required by the hackathon evaluation system.
-
-```bash
 python inference.py
-```
-
-### 5. Run Local Unit Tests
-
-To validate the core reward logic, TruthLens extractors, and NLP classifiers without starting the HTTP server:
-
-```bash
-python test.py
 ```
 
 ---
 
 ## Project Structure
-
-```text
 verifyiqq-env/
-├── server.py              # FastAPI server (OpenEnv entry point)
-├── inference.py           # Standardized LLM Agent + Logger
-├── openenv.yaml           # Environment manifest & spec
-├── environment/           # Core RL logic
-│   ├── env.py             # RL loop (reset, step, state execution)
-│   ├── models.py          # Pydantic data schemas
-│   └── state_manager.py   # Shift tracker and metrics
-├── nlp/                   # Heuristic text processors
-│   ├── intent.py          # Action intent classifier
-│   ├── language.py        # Hinglish/Hindi/English detector
-│   └── tone.py            # Emotional state classifier
-├── verifier/              # TruthLens Engine
-│   ├── claim_extractor.py # Regex-based claim parser
-│   └── claim_validator.py # Database cross-referencing logic
-├── graders/               # Automated task evaluators
-└── data/                  # Ground truth databases
-    └── orders.json        # Source-of-truth order records
-```
+├── server.py
+├── inference.py
+├── openenv.yaml
+├── environment/
+├── nlp/
+├── verifier/
+├── graders/
+└── data/
 
 ---
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-<div align="center">
-  <br/>
-  <b>Built for the OpenEnv Hackathon 2026</b>
-</div>
+MIT License - Built for the OpenEnv Hackathon 2026
