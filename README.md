@@ -1,4 +1,11 @@
-<div align="center">
+---
+title: VerifyIQ-Env
+emoji: 🔍
+colorFrom: blue
+colorTo: green
+sdk: docker
+pinned: false
+---<div align="center">
   <h1>VerifyIQ-Env</h1>
   <h3>AI That Doesn't Just Respond. It Verifies.</h3>
 
