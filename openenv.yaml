@@ -37,7 +37,7 @@ action_space:
     order_id:            {type: string, nullable: true}
     refund_amount:       {type: number, nullable: true}
 
-reward_range: [-1.0, 1.0]
+reward_range: [0.0, 1.0]
 
 tasks:
   - id: single_intent_triage
