@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Query, Body
 from environment.env import ContextIQEnv
 from environment.models import Action
 from graders.grader1 import grade as grade1
@@ -60,9 +60,9 @@ def get_tasks():
     }
 
 @app.post("/grader")
-def run_grader(task_id: str, episode_log: list):
+def run_grader(task_id: str = Query(...), episode_log: list = Body(...)):
     graders = {
-        "single_intent_triage":    grade1,
+        "single_intent_triage":     grade1,
         "hinglish_fraud_detection": grade2,
         "full_support_shift":       grade3
     }
@@ -70,4 +70,3 @@ def run_grader(task_id: str, episode_log: list):
         return {"error": "Invalid task_id"}
     score = graders[task_id](episode_log)
     return {"task_id": task_id, "score": score}
-
