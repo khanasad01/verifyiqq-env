@@ -33,4 +33,4 @@ def grade(episode_log: list) -> float:
     action_score = correct_actions / total
 
     final = (fraud_score * 0.60) + (action_score * 0.40)
-    return round(final, 2)
+    return min(max(round(final, 2), 0.01), 0.99)

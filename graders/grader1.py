@@ -23,4 +23,4 @@ def grade(episode_log: list) -> float:
             correct += 1
 
     score = correct / total
-    return round(score, 2)
+    return min(max(round(score, 2), 0.01), 0.99)

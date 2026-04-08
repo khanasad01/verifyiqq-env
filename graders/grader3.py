@@ -52,4 +52,4 @@ def grade(episode_log: list) -> float:
         action_score * 0.35 +
         empathy_score * 0.25
     )
-    return round(final, 2)
+    return min(max(round(final, 2), 0.01), 0.99)
