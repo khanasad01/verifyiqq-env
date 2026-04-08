@@ -8,7 +8,7 @@ Environment variables:
   API_BASE_URL   — LLM API endpoint  (default: https://api.openai.com/v1)
   MODEL_NAME     — Model identifier  (default: gpt-4o)
   HF_TOKEN       — API key (HuggingFace token or OpenAI key)
-  VERIFYIQ_URL   — Environment server URL (default: http://localhost:8000)
+  VERIFYIQ_URL   — Environment server URL (default: https://asadai1240-verifyiq-env.hf.space)
 """
 
 import os
