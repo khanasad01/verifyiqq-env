@@ -75,8 +75,8 @@ def baseline():
     return {
         "baseline_scores": {
             "single_intent_triage": 0.9,
-            "hinglish_fraud_detection": 1.0,
-            "full_support_shift": 1.0
+            "hinglish_fraud_detection": 0.99,
+            "full_support_shift": 0.99
         }
     }
 
