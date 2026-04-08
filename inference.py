@@ -21,7 +21,7 @@ from openai import OpenAI
 API_BASE_URL = os.getenv("API_BASE_URL", "https://api.openai.com/v1")
 MODEL_NAME   = os.getenv("MODEL_NAME",   "gpt-4o")
 HF_TOKEN     = os.getenv("HF_TOKEN")
-BASE_URL     = os.getenv("VERIFYIQ_URL", "http://localhost:8000")
+BASE_URL     = os.getenv("VERIFYIQ_URL", "https://asadai1240-verifyiq-env.hf.space")
 
 if not HF_TOKEN:
     print("[ERROR] HF_TOKEN environment variable is not set.", flush=True)
