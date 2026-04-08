@@ -168,8 +168,8 @@ def run_task(task: dict) -> float:
         reset_resp.raise_for_status()
     except Exception as e:
         print(f"[ERROR] task_id={task_id} reset failed: {e}", flush=True)
-        print(f"[END] task_id={task_id} score=0.0 steps=0 status=error", flush=True)
-        return 0.0
+        print(f"[END] task_id={task_id} score=0.01 steps=0 status=error", flush=True)
+        return 0.01
 
     observation = reset_resp.json()
     done = False
@@ -242,7 +242,7 @@ def run_task(task: dict) -> float:
         pass  # Fall back to avg reward score
 
     final_score = grader_score if grader_score is not None else (
-        round(sum(scores) / len(scores), 4) if scores else 0.0
+        min(max(round(sum(scores) / len(scores), 4), 0.01), 0.99) if scores else 0.01
     )
 
     # ── [END] log ─────────────────────────────────────────────────────────────
@@ -279,10 +279,10 @@ def main():
             results[task["id"]] = score
         except Exception as e:
             print(f"[ERROR] task_id={task['id']} failed with: {repr(e)}", flush=True)
-            results[task["id"]] = 0.0
+            results[task["id"]] = 0.01
             # Still emit [END] so the parser always gets a complete record
             print(
-                f"[END] task_id={task['id']} score=0.0 steps=0 status=error",
+                f"[END] task_id={task['id']} score=0.01 steps=0 status=error",
                 flush=True
             )
 
