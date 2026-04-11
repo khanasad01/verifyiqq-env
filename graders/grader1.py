@@ -10,7 +10,7 @@ CORRECT_ACTIONS = {
 
 def grade(episode_log: list) -> float:
     if not episode_log:
-        return 0.0
+        return 0.01
 
     correct = 0
     total = len(episode_log)

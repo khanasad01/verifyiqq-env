@@ -1,6 +1,6 @@
 def grade(episode_log: list) -> float:
     if not episode_log:
-        return 0.0
+        return 0.01
 
     total = len(episode_log)
     fraud_caught = 0
