@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VerifyIQ | Tactical Command</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- HEADER -->
+        <header class="main-header">
+            <div class="logo-section">
+                <span class="title-text">VERIFYIQ TACTICAL COMMAND</span>
+                <span class="status-badge"><span class="pulse"></span> SYSTEM ONLINE</span>
+            </div>
+            <div class="header-meta">
+                <span>META HACKATHON 2026 | SESSION_ACT: OPENENV_V1</span>
+            </div>
+        </header>
+
+        <main class="dashboard-grid">
+            <!-- COLUMN 1: CONTROLS -->
+            <div class="left-col">
+                <section class="panel">
+                    <div class="panel-header">
+                        <h2>MISSION CONTROL</h2>
+                    </div>
+                    <div class="control-group">
+                        <label>TASK SELECTION</label>
+                        <select id="task-selector">
+                            <option value="">LOADING...</option>
+                        </select>
+                    </div>
+                    <div class="btn-stack">
+                        <button id="btn-reset" class="btn btn-primary">RESET ENVIRONMENT</button>
+                        <button id="btn-baseline" class="btn btn-outline">RUN BASELINE AGENT</button>
+                        <button id="btn-scores" class="btn btn-outline">FETCH SCORES</button>
+                    </div>
+                </section>
+
+                <section class="panel">
+                    <div class="panel-header">
+                        <h2>ACTION BUILDER</h2>
+                    </div>
+                    <div class="control-group">
+                        <label>ACTION TYPE</label>
+                    </div>
+                    <div class="action-grid" id="action-builder-types">
+                        <button class="btn btn-action active" data-type="reply_only">REPLY</button>
+                        <button class="btn btn-action" data-type="track_order">TRACK</button>
+                        <button class="btn btn-action" data-type="initiate_refund">REFUND</button>
+                        <button class="btn btn-action" data-type="escalate_human">ESCALATE</button>
+                    </div>
+                    <div class="btn-stack">
+                        <button id="btn-send-action" class="btn btn-primary">SEND ACTION</button>
+                    </div>
+                </section>
+            </div>
+
+            <!-- COLUMN 2: VISUAL & FEED -->
+            <div class="center-col">
+                <section class="panel">
+                    <div class="verification-grid" id="grid">
+                        <!-- 144 cells generated via JS -->
+                    </div>
+                </section>
+
+                <section class="panel neural-feed">
+                    <div class="panel-header">
+                        <h2>LIVE NEURAL FEED</h2>
+                    </div>
+                    <div id="terminal" class="terminal-body">
+                        <div class="line sys">VerifyIQ Secure Terminal Initialization...</div>
+                        <div class="line sys">Waiting for mission start signal.</div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- COLUMN 3: STATE HUD -->
+            <div class="right-col">
+                <section class="panel">
+                    <div class="panel-header">
+                        <h2>EPISODE STATE</h2>
+                    </div>
+                    <div class="metrics-stack">
+                        <div class="metric-item">
+                            <label>TIMESTEP</label>
+                            <div class="val" id="stat-timestep">0</div>
+                        </div>
+                        <div class="metric-item">
+                            <label>SHIFT COMPLETION</label>
+                            <div class="val"><span id="stat-progress">0.0</span>%</div>
+                            <div class="progress-container">
+                                <div class="progress-bar" id="progress-bar"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="sub-metrics">
+                            <div class="sub-item">
+                                <span class="s-label">REWARD</span>
+                                <span class="s-val" id="stat-reward">0.0000</span>
+                            </div>
+                            <div class="sub-item">
+                                <span class="s-label">FRAUD DETECTED</span>
+                                <span class="s-val" id="stat-fraud">0</span>
+                            </div>
+                            <div class="sub-item">
+                                <span class="s-label">EPISODE DONE</span>
+                                <span class="s-val" id="stat-done">NO</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="panel">
+                    <div class="panel-header">
+                        <h2>TASK SCORES</h2>
+                    </div>
+                    <div class="metrics-stack">
+                        <div class="sub-item">
+                            <span class="s-label">TASK 1</span>
+                            <span class="s-val" id="score-1">--</span>
+                        </div>
+                        <div class="sub-item">
+                            <span class="s-label">TASK 2</span>
+                            <span class="s-val" id="score-2">--</span>
+                        </div>
+                        <div class="sub-item">
+                            <span class="s-label">TASK 3</span>
+                            <span class="s-val" id="score-3">--</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+        
+        <footer class="main-footer">
+            <div>MISSION_ID: OP-ENV-ROUND1</div>
+            <div>VERIFYIQ ENGINE v2.0.0-tactical</div>
+        </footer>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

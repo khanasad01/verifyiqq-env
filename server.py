@@ -1,12 +1,25 @@
 from fastapi import FastAPI, Query, Body
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from environment.env import ContextIQEnv
 from environment.models import Action
 from graders.grader1 import grade as grade1
 from graders.grader2 import grade as grade2
 from graders.grader3 import grade as grade3
+import os
 
 app = FastAPI()
 env = ContextIQEnv()
+
+# ── Serve Frontend ──────────────────────────────────────────────────────────
+if not os.path.exists("static"):
+    os.makedirs("static")
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+@app.get("/")
+def get_dashboard():
+    return FileResponse("static/index.html")
 
 @app.get("/health")
 def health():
@@ -79,3 +92,7 @@ def baseline():
             "full_support_shift": 1.0
         }
     }
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)

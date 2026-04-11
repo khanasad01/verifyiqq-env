@@ -59,6 +59,8 @@ SAMPLE_MESSAGES = [
     }
 ]
 
+import random
+
 class ContextIQEnv:
 
     def __init__(self):
@@ -78,7 +80,11 @@ class ContextIQEnv:
         else:
             messages = SAMPLE_MESSAGES
 
-        self.state_manager.load_queue(messages.copy())
+        # SHUFFLE to prevent deterministic behavior on reset
+        msg_list = messages.copy()
+        random.shuffle(msg_list)
+        
+        self.state_manager.load_queue(msg_list)
         msg = self.state_manager.next_message()
         self.current_obs = self._build_observation(msg)
         return self.current_obs

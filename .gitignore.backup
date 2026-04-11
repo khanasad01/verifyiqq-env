@@ -1,0 +1,31 @@
+# Ignore the learning journey document (Beginner Guide)
+LEARNING_JOURNEY.md
+
+# Ignore the project structure document
+PROJECT_STRUCTURE.md
+
+# Ignore local environment variables & results
+.env
+.env.local
+inference_results.json
+baseline_results.json
+
+# Python general ignores
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+env/
+.env/
+build/
+dist/
+*.egg-info/
+
+# UV / Package manager
+.uv/
+
+# OS generated files
+.DS_Store
+Thumbs.db
