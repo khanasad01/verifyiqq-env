@@ -1,4 +1,7 @@
 from fastapi import FastAPI, Query, Body
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+import os
 from environment.env import ContextIQEnv
 from environment.models import Action
 from graders.grader1 import grade as grade1
@@ -6,6 +9,16 @@ from graders.grader2 import grade as grade2
 from graders.grader3 import grade as grade3
 
 app = FastAPI()
+
+if os.path.exists("static"):
+    app.mount("/static", StaticFiles(directory="static"), name="static")
+
+@app.get("/", include_in_schema=False)
+def serve_frontend():
+    if os.path.exists("static/index.html"):
+        return FileResponse("static/index.html")
+    return {"message": "UI not found. Check static directory."}
+
 env = ContextIQEnv()
 
 @app.get("/health")
