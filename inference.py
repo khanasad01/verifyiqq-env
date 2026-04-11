@@ -164,7 +164,7 @@ def run_task(task: dict) -> float:
 
     # Reset the environment
     try:
-        reset_resp = requests.post(f"{BASE_URL}/reset", timeout=15)
+        reset_resp = requests.post(f"{BASE_URL}/reset", json={"task_id": task_id}, timeout=15)
         reset_resp.raise_for_status()
     except Exception as e:
         print(f"[ERROR] task_id={task_id} reset failed: {e}", flush=True)

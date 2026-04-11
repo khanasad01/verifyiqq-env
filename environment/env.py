@@ -65,8 +65,20 @@ class ContextIQEnv:
         self.state_manager = StateManager()
         self.current_obs = None
 
-    def reset(self) -> Observation:
-        self.state_manager.load_queue(SAMPLE_MESSAGES.copy())
+    def reset(self, task_id: str = None) -> Observation:
+        if task_id == "single_intent_triage":
+            from tasks.task1 import TASK1_MESSAGES
+            messages = TASK1_MESSAGES
+        elif task_id == "hinglish_fraud_detection":
+            from tasks.task2 import TASK2_MESSAGES
+            messages = TASK2_MESSAGES
+        elif task_id == "full_support_shift":
+            from tasks.task3 import TASK3_MESSAGES
+            messages = TASK3_MESSAGES
+        else:
+            messages = SAMPLE_MESSAGES
+
+        self.state_manager.load_queue(messages.copy())
         msg = self.state_manager.next_message()
         self.current_obs = self._build_observation(msg)
         return self.current_obs

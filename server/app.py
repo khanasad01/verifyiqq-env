@@ -13,8 +13,9 @@ def health():
     return {"status": "ok", "env": "verifyiq-env"}
 
 @app.post("/reset")
-def reset():
-    obs = env.reset()
+def reset(request: dict = Body(default=None)):
+    task_id = request.get("task_id") if request else None
+    obs = env.reset(task_id=task_id)
     return obs.model_dump()
 
 @app.post("/step")
